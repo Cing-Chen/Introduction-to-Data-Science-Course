@@ -209,17 +209,72 @@ class DecisionTreeClassifier:
     def _find_leaves(self, root):
         #TODO
         ## find each node child leaves number
+
+        # My code start
+        leaves_number = 0
+        queue = []
+        queue.append(root)
+
+        while(True):
+            if len(queue) == 0:
+                break
+            else:
+                temp_root = queue[0]
+                queue.pop(0)
+
+                if temp_root.left != None:
+                    queue.append(temp_root.left)
+
+                if temp_root.right != None:
+                    queue.append(temp_root.right)
+
+                if temp_root.left == None and temp_root.right == None:
+                    leaves_number += 1
+
+        return leaves_number
+        # My code end
+
         pass
 
     def _error_before_cut(self, root):
         # TODO
         ## return error before post-pruning
+
+        # My code start
+        errors_before_cut_number = 0
+        queue = []
+        queue.append(root)
+
+        while(True):
+            if len(queue) == 0:
+                break
+            else:
+                temp_root = queue[0]
+                queue.pop(0)
+
+                if temp_root.left != None:
+                    queue.append(temp_root.left)
+
+                if temp_root.right != None:
+                    queue.append(temp_root.right)
+
+                if temp_root.left == None and temp_root.right == None:
+                    errors_before_cut_number += temp_root.num_errors
+
+        return errors_before_cut_number
+        # My code end
+
         pass
 
     def _compute_alpha(self, root):
         # TODO
         ## Compute each node alpha
         # alpha = (error after cut - error before cut) / (leaves been cut - 1)
+
+        # My code start
+        alpha = ((root.num_errors - self._error_before_cut(root)) / (self._find_leaves(root) - 1))
+        # My code end
+
         pass
     
     def _find_min_alpha(self, root):
