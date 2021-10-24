@@ -128,8 +128,16 @@ class DecisionTreeClassifier:
                         right_y.append(y[i])
 
                 left_X = np.array(left_X)
+
+                if np.size(left_X, 1) != 0:
+                    left_X = np.delete(left_X, idx, axis=1)
+
                 left_y = np.array(left_y)
                 right_X = np.array(right_X)
+
+                if np.size(right_X, 1) != 0:
+                    right_X = np.delete(right_X, idx, axis=1)
+
                 right_y = np.array(right_y)
 
                 depth += 1
@@ -306,8 +314,8 @@ class DecisionTreeClassifier:
         pass
 
 def load_train_test_data(test_ratio = .3, random_state = 1):
-    df = pd.read_csv('.\heart_dataset.csv')
-    # df = pd.read_csv('.\Exercise_2\heart_dataset.csv')  # Change file directory
+    # df = pd.read_csv('.\heart_dataset.csv')
+    df = pd.read_csv('.\Exercise_2\heart_dataset.csv')  # Change file directory
     X = df.drop(columns = ['target'])
     X = np.array(X.values)
     y = df['target']
@@ -316,7 +324,7 @@ def load_train_test_data(test_ratio = .3, random_state = 1):
         X, y, test_size = test_ratio, random_state = random_state, stratify = y)
     return X_train, X_test, y_train, y_test
 
-def accuracy_report(X_train_scale, y_train, X_test_scale, y_test, max_depth = 7):
+def accuracy_report(X_train_scale, y_train, X_test_scale, y_test, max_depth = 4):
     tree = DecisionTreeClassifier(max_depth = max_depth)
     tree.fit(X_train_scale, y_train)
     pred = tree.predict(X_train_scale)
