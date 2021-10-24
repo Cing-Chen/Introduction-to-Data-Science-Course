@@ -128,16 +128,8 @@ class DecisionTreeClassifier:
                         right_y.append(y[i])
 
                 left_X = np.array(left_X)
-
-                if np.size(left_X, 1) != 0:
-                    left_X = np.delete(left_X, idx, axis=1)
-
                 left_y = np.array(left_y)
                 right_X = np.array(right_X)
-
-                if np.size(right_X, 1) != 0:
-                    right_X = np.delete(right_X, idx, axis=1)
-
                 right_y = np.array(right_y)
 
                 depth += 1
