@@ -306,7 +306,7 @@ def load_train_test_data(test_ratio = .3, random_state = 1):
         X, y, test_size = test_ratio, random_state = random_state, stratify = y)
     return X_train, X_test, y_train, y_test
 
-def accuracy_report(X_train_scale, y_train, X_test_scale, y_test, max_depth = 7):
+def accuracy_report(X_train_scale, y_train, X_test_scale, y_test, max_depth = 4):
     tree = DecisionTreeClassifier(max_depth = max_depth)
     tree.fit(X_train_scale, y_train)
 
