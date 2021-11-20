@@ -306,8 +306,8 @@ class DecisionTreeClassifier:
         pass
 
 def load_train_test_data(test_ratio = .3, random_state = 1):
-    # df = pd.read_csv('.\heart_dataset.csv')
-    df = pd.read_csv('.\Exercise_2\heart_dataset.csv')  # Change file directory
+    df = pd.read_csv('.\heart_dataset.csv')
+    # df = pd.read_csv('.\Exercise_2\heart_dataset.csv')  # Change file directory
     X = df.drop(columns = ['target'])
     X = np.array(X.values)
     y = df['target']
