@@ -41,7 +41,7 @@ def cross_entropy(y, y_hat):
     return loss
 
 
-def logreg_sgd(X, y, alpha = .001, epochs = 100, eps=1e-4):
+def logreg_sgd(X, y, alpha = .001, epochs = 10000, eps=1e-4):
     # TODO: compute theta
     # alpha: step size
     # epochs: max epochs
@@ -67,7 +67,7 @@ def logreg_sgd(X, y, alpha = .001, epochs = 100, eps=1e-4):
         if need_stop:
             break;
 
-        print(i, cross_entropy(y, predict_prob(X, theta)))
+        print("epoch: ", i+1, "loss: ", cross_entropy(y, predict_prob(X, theta)))
     # my code end
 
     return theta
@@ -99,7 +99,6 @@ def plot_roc_curve(y_test, y_prob):
     fpr_counter = 0
 
     for i in range(len(y)):
-        print(tpr_counter, fpr_counter)
         if y[i][1] == 1:
             tpr_counter += (1 / true_num)
         elif y[i][1] == 0:
