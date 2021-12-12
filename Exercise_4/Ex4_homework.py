@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-def mf_sgd(R, K=64, alpha=1e-4, beta=1e-2, iterations=50):
+def mf_sgd(R, K=64, alpha=1e-4, beta=1e-2, iterations=50):  # Exchange alpha and beta
     """
     :param R: user-item rating matrix
     :param K: number of latent dimensions
@@ -35,6 +35,8 @@ def mf_sgd(R, K=64, alpha=1e-4, beta=1e-2, iterations=50):
     for iters in range(iterations):
         np.random.shuffle(samples)
 
+        loss = 0
+
         for i, j, r in samples:
             """
             TODO: 
@@ -42,7 +44,34 @@ def mf_sgd(R, K=64, alpha=1e-4, beta=1e-2, iterations=50):
             you need to (1)update "b_u"(vector of rating bias for users) and "b_i"(vector of rating bias for items)
             and (2)update user and item latent feature matrices "P", "Q"
             """
-            pred = 0
+
+            # My code start
+            # Calculate prediction and error
+            hat_r = b + b_u[i] + b_i[j] + np.dot(P[i, :], Q[j, :])
+            d_ij = r - hat_r
+
+            # Calculate gradients
+            gradient_b_u = -d_ij + (beta * b_u[i])
+            gradient_b_i = -d_ij + (beta * b_i[j])
+            gradient_P = -d_ij * Q[j, :] + (beta * P[i, :])
+            gradient_Q = -d_ij * P[i, :] + (beta * Q[j, :])
+            
+            # Update all variables
+            b_u[i] -= alpha * gradient_b_u
+            b_i[j] -= alpha * gradient_b_i
+            P[i, :] -= alpha * gradient_P
+            Q[j, :] -= alpha * gradient_Q
+
+            # Calculate loss
+            loss += (r - np.dot(P[i, :], Q[j, :])) ** 2
+            # My code end
+
+        print(loss)
+
+        temp = [iters, loss]
+        training_loss.append(temp)
+
+    pred = np.dot(P, Q.transpose())
 
     return pred, b, b_u, b_i, training_loss
 
@@ -64,7 +93,7 @@ if __name__ == "__main__":
     data = pd.read_csv('ratings.csv')
     table = pd.pivot_table(data, values='rating', index='userId', columns='movieId', fill_value=0)
     R = table.values
-    
+
     pred, b, b_u, b_i, loss = mf_sgd(R,iterations=50)
     print("P x Q:")
     print(pred)
