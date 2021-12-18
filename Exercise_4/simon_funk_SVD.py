@@ -3,7 +3,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-def mf_sgd(R, K=64, alpha=1e-4, beta=1e-2, iterations=50):  # Exchange alpha and beta
+# Try to change the value of alpha
+def mf_sgd(R, K=64, alpha=1e-4, beta=1e-2, iterations=50):
     """
     :param R: user-item rating matrix
     :param K: number of latent dimensions
@@ -35,7 +36,9 @@ def mf_sgd(R, K=64, alpha=1e-4, beta=1e-2, iterations=50):  # Exchange alpha and
     for iters in range(iterations):
         np.random.shuffle(samples)
 
+# My code start
         loss = 0
+# My code end
 
         for i, j, r in samples:
             """
@@ -45,7 +48,10 @@ def mf_sgd(R, K=64, alpha=1e-4, beta=1e-2, iterations=50):  # Exchange alpha and
             and (2)update user and item latent feature matrices "P", "Q"
             """
 
-            # My code start
+# My code start
+            # Comment out pred = 0
+            # pred = 0
+
             # Calculate prediction and error
             hat_r = b + b_u[i] + b_i[j] + np.dot(P[i, :], Q[j, :])
             d_ij = r - hat_r
@@ -63,15 +69,17 @@ def mf_sgd(R, K=64, alpha=1e-4, beta=1e-2, iterations=50):  # Exchange alpha and
             Q[j, :] -= alpha * gradient_Q
 
             # Calculate loss
-            loss += (r - np.dot(P[i, :], Q[j, :])) ** 2
-            # My code end
+            loss += ((r - b - b_u[i] - b_i[j] - np.dot(P[i, :], Q[j, :])) ** 2)
 
-        print(loss)
+        # Calculate loss
+        loss /= len(samples)
+        loss = loss ** 0.5
 
         temp = [iters, loss]
         training_loss.append(temp)
 
     pred = np.dot(P, Q.transpose())
+# My code end
 
     return pred, b, b_u, b_i, training_loss
 
@@ -104,4 +112,3 @@ if __name__ == "__main__":
     print("Item bias:")
     print(b_i)
     plot_training_loss(loss)
-    
