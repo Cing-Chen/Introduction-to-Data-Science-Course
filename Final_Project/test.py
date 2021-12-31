@@ -1,6 +1,6 @@
 import pandas as pd
 
-# Random Forest Module
+# Calculate accuracy
 # --------------------
 from sklearn.metrics import accuracy_score
 # --------------------
@@ -13,11 +13,13 @@ def evaluate(model, model_selector, data, label):
         predict = model.predict(data)
         accuracy = accuracy_score(predict, label)
     elif model_selector == 'SVM':
-        print(2)
-    elif model_selector == 'KNN':
-        print(3)
-    else:
+        # do predict and calculate acc there
         print('hello world')
+    elif model_selector == 'KNN':
+        # do predict and calculate acc there
+        print('hello world')
+    else:
+        print('This is impossible case.')
         
     return accuracy
 
@@ -28,11 +30,13 @@ def predict(model, model_selector, data):
     if model_selector == 'Random_Forest':
         predict = model.predict(data)
     elif model_selector == 'SVM':
-        print(2)
-    elif model_selector == 'KNN':
-        print(3)
-    else:
+        # do predict
         print('hello world')
+    elif model_selector == 'KNN':
+        # do predict
+        print('hello world')
+    else:
+        print('This is impossible case.')
 
     output = pd.read_csv("./dataset/sample_submission.csv")
     output['Label'] = predict

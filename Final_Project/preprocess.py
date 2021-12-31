@@ -18,6 +18,3 @@ def preprocess():
     valid_Y = valid['label']
 
     return train_X, train_Y, valid_X, valid_Y, test
-
-# if __name__ == '__main__':
-#     preprocess()
